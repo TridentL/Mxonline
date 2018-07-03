@@ -1,0 +1,16 @@
+{% extends 'org-detail-homepage.html' %}
+{% load static %}
+{% block title %}<title>机构介绍列表页</title>{% endblock %}
+{% block custom_css %}{% endblock %}
+{% block three %}<li>机构介绍</li>{% endblock %}
+{% block right_body %}
+<div class="right companycenter layout" >
+        <div class="head">
+            <h1>机构介绍</h1>
+        </div>
+        <div class="des">
+            <p>{{ course_org.desc }}</p>
+        </div>
+    </div>
+{% endblock %}
+{% block custom_js %}{% endblock %}

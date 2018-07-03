@@ -1,0 +1,107 @@
+{% extends 'course-list.html' %}
+{% load static %}
+{% block title %}<title>课程讲师 - 慕学在线网</title>{% endblock %}
+{% block custom_css %}{% endblock %}
+{% block two %}课程讲师{% endblock %}
+{% block section %}
+<section>
+	<div class="wp butler_list_box list">
+	<div class='left'>
+		<div class="butler_list layout">
+			<div class="head">
+				<ul class="fl tab_header">
+					<li class="{% ifequal sort '' %}active{% endifequal %}"><a href="?sort=">全部</a> </li>
+					<li class="{% ifequal sort 'hot' %}active{% endifequal %}"><a href="?sort=hot">人气 &#8595;</a></li>
+				</ul>
+                <div class="fr butler-num">共<span class="key">{{ teacher_nums }}</span>人&nbsp;&nbsp;&nbsp;</div>
+			</div>
+            {% for teacher in all_teacher %}
+            <dl class="des">
+					<dt>
+						<a href="{% url 'org:teacher_detail' teacher.id %}">
+                            <div class="picpic">
+                                <img width="100" height="100" class="scrollLoading" src="{% static teacher.image %}"/>
+                            </div>
+                        </a>
+						<div class="btn">
+							<div class="fr btn2 bdsharebuttonbox" data-tag="share_{{ teacher.id }}">
+                                <span class="fl">分享</span>
+                                <a href="#" class="bds_more" data-cmd="more"></a>
+                            </div>
+						</div>
+					</dt>
+					<dd>
+						<a href="{% url 'org:teacher_detail' teacher.id %}">
+                            <h1>{{ teacher.name }}<span class="key picbig">金牌讲师</span></h1>
+                        </a>
+						<ul class="cont">
+							<li>工作年限：<span>{{ teacher.work_years }}年</span></li>
+							<li>工作职位：<span>{{ teacher.work_position }}</span></li>
+							<li>就职公司：<span>{{ teacher.work_company }}&nbsp;</span></li>
+							<li>年龄：<span>{{ teacher.age }}岁</span></li>
+							<li>教学特点：<span>{{ teacher.points }}</span></li>
+						</ul>
+					</dd>
+                    <a class="buy buyservice" href="/org/teacher/detail/1/"><br/>查看<br/>详情</a>
+                </dl>
+            {% endfor %}
+		</div>
+		<div class="pageturn">
+            <ul class="pagelist">
+                    {% if all_teacher.has_previous %}
+                    <li class="long"><a href="?page={{ all_teacher.previous_page_number }}">上一页</a></li>
+                    {% endif %}
+
+                    {% for nums in all_teacher.paginator.page_range %}
+                    <li class="{% if all_teacher.number == nums %}active{% endif %}"><a href="?page={{ nums }}">{{ nums }}</a></li>
+                    {% endfor %}
+
+                    {% if all_teacher.has_next %}
+                    <li class="long"><a href="?page={{ all_teacher.next_page_number }}">下一页</a></li>
+                    {% endif %}
+
+            </ul>
+        </div>
+	</div>
+	<div class="right layout">
+		<div class="head">讲师排行榜</div>
+            {% for rank_teacher in rank_teachers %}
+            <dl class="des">
+                <span class="num fl">{{ forloop.counter }}</span>
+                <a href="{% url 'org:teacher_detail' rank_teacher.id %}">
+                    <dt>
+                        <img width="50" height="50" class="scrollLoading"  src="{% static rank_teacher.image %}"/>
+                    </dt>
+                </a>
+                <dd>
+                    <a href="/diary/hk_detail/6/">
+                        <h1 title="bobby">{{ rank_teacher.name }}</h1>
+                    </a>
+                    <p>工作年限：<span>{{ rank_teacher.work_years }}年</span></p>
+                </dd>
+            </dl>
+            {% endfor %}
+	</div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script>
+    window._bd_share_config = {
+        "common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["mshare","qzone","tsina","weixin","sqq"],"bdPic":"","bdStyle":"0","bdSize":"16"},
+        share : [
+            {% for teacher in all_teacher %}
+                    {
+			            "tag" : "share_{{ teacher.id }}",
+			            "bdSize" : 16,
+                       "bdText":"授课教师-{{ teacher.name }}-rongbaoer慕课小站",
+                       "bdDesc": "我在#rongbaoer慕课小站#发现了老师“{{ teacher.name }}”，对我们学习很有帮助，一起来看看吧",
+                        "bdUrl": 'http://127.0.0.1:8000{% url 'org:teacher_detail' teacher.id %}'
+		            },
+            {% endfor %}
+                ]
+    }
+	//以下为js加载部分
+	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+{% endblock %}

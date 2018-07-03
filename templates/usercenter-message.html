@@ -1,0 +1,54 @@
+{% extends 'usercenter-info.html' %}
+{% block title %}我的消息- 慕学在线网{% endblock %}
+{% block custom_css %}{% endblock %}
+{% block custom_three %}<li>我的消息</li>{% endblock %}
+{% block right_content %}
+<div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的消息</h1>
+			</div>
+
+		</div>
+		<div class="personal_des permessage">
+			<div class="head">
+				<ul class="tab_header messagehead">
+					<li class="active"><a href="{% url 'users:my_message' %}">个人消息</a> </li>
+				</ul>
+
+			</div>
+			<div class="messagelist">
+                {% for message in all_message %}
+                <div class="messages">
+                        <div class="fr">
+                            <div class="top"><span class="fl time">{{ message.add_time }}</span><span class="fr btn foldbtn"></span></div>
+                            <p>
+                                {{ message.message }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+			</div>
+
+
+			<div class="pageturn pagerright">
+                <ul class="pagelist">
+                    {% if all_message.has_previous %}
+                        <li class="long"><a href="?page={{ all_message.previous_page_number }}">上一页</a></li>
+                    {% endif %}
+                    {% for nums in all_message.paginator.page_range %}
+                        <li class="{% if all_message.number == nums %}active{% endif %}"><a href="?page={{ nums }}">{{ nums }}</a></li>
+                    {% endfor %}
+                    {% if all_message.has_next %}
+                        <li class="long"><a href="?page={{ all_message.next_page_number }}">下一页</a></li>
+                    {% endif %}
+
+
+            </ul>
+            </div>
+		</div>
+
+	</div>
+{% endblock %}
+{% block custom_js %}{% endblock %}
